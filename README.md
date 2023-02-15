@@ -30,7 +30,11 @@ Convert dataset from .enc_ukb format to a workable format for R.
 $PACKAGE/ukbconv $PROJECT_DATA/ukb48344.enc_ukb csv
 ```
 ## Data preparing
-I run this R script to just save relevant variables. This outputs an R data format file .rds & .csv.
+I run this R script to just save relevant variables. This outputs .rds & .csv format files.
 ```
-Rscript data-prepare.R
+Rscript $PACKAGE/data-prepare.R
 ```
+We modify the header of the data table by referring to eTable 1 and the samples with all null values are excluded.
+
+## Cox analysis
+
