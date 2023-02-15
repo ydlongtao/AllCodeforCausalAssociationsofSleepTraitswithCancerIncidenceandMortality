@@ -93,6 +93,15 @@ Rscript Non-Linear-MR.r
 
 ## Survival curve analysis
 Kaplan-Meier estimation was used to create survival curves, and the log-rank test was used to compare survival across different groups.
+Please use the example data provided in the Demo folder. 
+```
+Rscript Survival-curve-analysis.r
+```
 
-
+## Sensitivity analysis
+This section highlights references to https://github.com/MRCIEU
+Please use the example data provided in the Demo folder.
+```
+Rscript MR_Sensitivity_analysis.R
+```
 
