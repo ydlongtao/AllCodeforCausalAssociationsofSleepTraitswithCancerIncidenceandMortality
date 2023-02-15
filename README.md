@@ -29,6 +29,25 @@ Convert dataset from .enc_ukb format to a workable format for R.
 ```
 $PACKAGE/ukbconv $PROJECT_DATA/ukb48344.enc_ukb csv
 ```
+
+SNP data download. Ensure the key is downloaded in the file and saved as .ukbkey
+```
+for i in {1..22}; do $PACKAGE/ukbgene imp -c$i; done  
+
+for i in {1..22}; do $PACKAGE/ukbgene imp -m -c$i; done
+
+$PACKAGE/ukbgene imp -cX
+$PACKAGE/ukbgene imp -cXY
+
+$PACKAGE/ukbgene imp -m -cX
+$PACKAGE/ukbgene imp -m -cXY
+```
+
+```
+for i in {1..21}; do $PACKAGE/plink2 --bgen $PACKAGE/ukb22828_c${i}_b0_v3.bgen --sample $PACKAGE/ukb22828_c${i}_b0_v3_s487202.sample --make-bed -out $PROJECT_DATA/ukbchr${i} --maf 0.01 --geno 0.05 --threads 20 --hwe 0.000001 --mind 0.05; done
+```
+
+
 ## Data preparing
 I run this R script to just save relevant variables. This outputs .rds & .csv format files.
 ```
@@ -38,6 +57,11 @@ We modify the header of the data table by referring to eTable 1 and the samples 
 
 ## Cox analysis
 Please use the example data provided in the Demo folder. 
-、、、
 
-、、、
+```
+Rscript $PACKAGE/cox-analysis.r
+```
+This outputs .csv & .pdf format files.
+
+## Linear MR analysis
+
