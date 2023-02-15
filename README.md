@@ -77,7 +77,7 @@ Step 1: Calculating the GRS
 #The parameters of "--recode-allele" were in the eTable 3-8
 $PACKAGE/plink --bfile $PROJECT_DATA/ukbchr_merge --recodeA --recode-allele $PROJECT_DATA/sleep_duration_78_SNPs_effect_allele.txt --out extracted_sleep_duration_GRS_Raw
 ```
-Manual summation and matching of clinical information
+For missing value, the package Hmisc was used to impute. Manual summation and matching of clinical information
 
 Step 2: Linear MR analysis
 Please use the example data provided in the Demo folder. 
@@ -85,4 +85,14 @@ Please use the example data provided in the Demo folder.
 Rscript Linear-MR.r
 ```
 
-## none-Linear MR analysis
+## Non-Linear MR analysis
+Please use the example data provided in the Demo folder. 
+```
+Rscript Non-Linear-MR.r
+```
+
+## Survival curve analysis
+Kaplan-Meier estimation was used to create survival curves, and the log-rank test was used to compare survival across different groups.
+
+
+
