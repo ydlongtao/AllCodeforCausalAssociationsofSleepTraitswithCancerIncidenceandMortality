@@ -37,4 +37,7 @@ Rscript $PACKAGE/data-prepare.R
 We modify the header of the data table by referring to eTable 1 and the samples with all null values are excluded.
 
 ## Cox analysis
+Please use the example data provided in the Demo folder. 
+、、、
 
+、、、
