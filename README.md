@@ -25,12 +25,12 @@ How to download genetic data (also linked in the guide above):
 using ukbgene (older) - https://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=664 
 using gfetch (newer version of download client) - https://biobank.ctsu.ox.ac.uk/showcase/refer.cgi?id=668
 
-Convert dataset from .enc_ukb format to a workable format for R.
+Step 1: Convert dataset from .enc_ukb format to a workable format for R.
 ```
 $PACKAGE/ukbconv $PROJECT_DATA/ukb48344.enc_ukb csv
 ```
 
-SNP data download. Ensure the key is downloaded in the file and saved as .ukbkey
+Step 2: SNP data download. Ensure the key is downloaded in the file and saved as .ukbkey
 ```
 for i in {1..22}; do $PACKAGE/ukbgene imp -c$i; done  
 
@@ -43,25 +43,46 @@ $PACKAGE/ukbgene imp -m -cX
 $PACKAGE/ukbgene imp -m -cXY
 ```
 
-```
-for i in {1..21}; do $PACKAGE/plink2 --bgen $PACKAGE/ukb22828_c${i}_b0_v3.bgen --sample $PACKAGE/ukb22828_c${i}_b0_v3_s487202.sample --make-bed -out $PROJECT_DATA/ukbchr${i} --maf 0.01 --geno 0.05 --threads 20 --hwe 0.000001 --mind 0.05; done
-```
-
-
 ## Data preparing
+Step 1: UK biobank clinical data pre-processing
+
 I run this R script to just save relevant variables. This outputs .rds & .csv format files.
 ```
-Rscript $PACKAGE/data-prepare.R
+Rscript data-prepare.R
 ```
 We modify the header of the data table by referring to eTable 1 and the samples with all null values are excluded.
+
+Step 2: UK biobank genotype data pre-processing
+
+Converting BGEN to plink files
+```
+for i in {1..21}; do $PACKAGE/plink2 --bgen $PACKAGE/ukb22828_c${i}_b0_v3.bgen --sample $PACKAGE/ukb22828_c${i}_b0_v3_s487202.sample --make-bed -out $PROJECT_DATA/ukbchr${i} --maf 0.01 --geno 0.05 --threads 20 --hwe 0.000001 --mind 0.05; done
+
+#Note: create merge-bed-list-file.txt
+$PACKAGE/plink2 --pmerge-list $PROJECT_DATA/merge-bed-list-file.txt --make-bed --out $PROJECT_DATA/ukbchr_merge
+```
 
 ## Cox analysis
 Please use the example data provided in the Demo folder. 
 
 ```
-Rscript $PACKAGE/cox-analysis.r
+Rscript cox-analysis.r
 ```
 This outputs .csv & .pdf format files.
 
 ## Linear MR analysis
 
+Step 1: Calculating the GRS
+```
+#The parameters of "--recode-allele" were in the eTable 3-8
+$PACKAGE/plink --bfile $PROJECT_DATA/ukbchr_merge --recodeA --recode-allele $PROJECT_DATA/sleep_duration_78_SNPs_effect_allele.txt --out extracted_sleep_duration_GRS_Raw
+```
+Manual summation and matching of clinical information
+
+Step 2: Linear MR analysis
+Please use the example data provided in the Demo folder. 
+```
+Rscript Linear-MR.r
+```
+
+## none-Linear MR analysis
